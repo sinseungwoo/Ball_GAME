@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Over</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Game Over</h1>
+        <p>Your score: <span id="finalScore"></span></p>
+        <p>Your Nickname: <span id="finalNickname"></span></p>
+        <p>Highest Score: <span id="highScore"></span></p>
+        <p><a href="index.html">Play Again</a></p>
+        <h2>Ranking</h2>
+        <ul id="ranking">
+
+        </ul>
+    </div>
+</body>
+
+<script>
+
+window.onload = function() {
+    let finalScore = localStorage.getItem("finalScore");
+    let finalNickname = localStorage.getItem("finalNickname");
+    let storedHighScore = localStorage.getItem("highScore") || 0;
+
+    console.log(localStorage.getItem("nickname"));
+
+    document.getElementById("finalScore").innerHTML = finalScore;
+    document.getElementById("finalNickname").innerHTML = finalNickname;
+    document.getElementById("highScore").innerHTML = storedHighScore;
+
+    addToRanking(finalNickname, storedHighScore);
+};
+
+    function addToRanking(nickname, highScore) {
+            let rankingList = document.getElementById("ranking");
+            let listItem = document.createElement("li");
+            listItem.innerHTML = `${nickname}: ${highScore}`;
+
+            let rankings = JSON.parse(localStorage.getItem("rankings") || "[]");
+
+            rankings.push({ nickname: nickname, score: highScore });
+
+            rankings.sort((a, b) => b.score - a.score);
+
+            localStorage.setItem("rankings", JSON.stringify(rankings));
+
+            rankingList.innerHTML = "";
+            rankings.forEach((rank, index) => {
+                let item = document.createElement("li");
+                item.innerText = `${index + 1}. ${rank.nickname}: ${rank.score}`;
+            rankingList.appendChild(listItem);
+            });
+        }
+
+    function goToBallPage() {
+        window.location.href = "ball.html";
+    }
+</script>
+</html>

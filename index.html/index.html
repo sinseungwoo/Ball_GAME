@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Brick Breaker Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Brick Breaker Game</h1>
+        <p>Click the button to start the game!</p>
+        <div id="nicknameInput">
+        <label for="nickname">Enter your nickname:</label>
+        <input type="text" id="nickname" name="nickname" required>
+        <button onclick="startGame()">Start Game</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('startButton').addEventListener('click', function() {
+            window.location.href = 'ball.html';
+        });
+    </script>
+    <script>
+        function startGame() {
+            let nickname = document.getElementById("nickname").value;
+            if (nickname) {
+                if (!isNicknameExists(nickname)) {
+            localStorage.setItem("nickname", nickname);
+            window.location.href = "ball.html";
+        } else {
+            alert("Nickname already exists! Please choose a different nickname.");
+                }
+    } else {
+        alert("Please enter a nickname!");
+    }
+}
+function isNicknameExists(nickname) {
+            let savedNickname = sessionStorage.getItem("nickname");
+            return savedNickname === nickname;
+        }
+    </script>
+</body>
+</html>
